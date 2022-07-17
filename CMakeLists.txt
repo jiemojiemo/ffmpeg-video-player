@@ -11,14 +11,18 @@ if (ENABLE_ASAN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 endif ()
 
-add_subdirectory(3rdparty)
-add_subdirectory(src)
-
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
+add_subdirectory(3rdparty)
+add_subdirectory(src)
+add_subdirectory(references)
+
 add_executable(tutorial01 tutorial01.cpp lsan_suppressions.cpp)
 target_link_libraries(tutorial01 PRIVATE ${CONAN_LIBS})
+
+add_executable(tutorial02 tutorial02.cpp lsan_suppressions.cpp)
+target_link_libraries(tutorial02 PRIVATE ${CONAN_LIBS} ffmpeg_utils)
 
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND FF_BUILD_TESTING)
     enable_testing()
