@@ -14,6 +14,7 @@ extern "C" {
 
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 void SaveFrame(AVFrame *pFrame, int width, int height, int iFrame) {
@@ -103,11 +104,11 @@ int main(int argc, char *argv[]) {
     AVFrame *rgb_frame = av_frame_alloc();
 
     AVPixelFormat dst_format = AVPixelFormat::AV_PIX_FMT_RGB24;
-    const int align = 1;
+    const int align = 32;
 
     int num_bytes = av_image_get_buffer_size(dst_format,
                                              codec_ctx->width, codec_ctx->height, align);
-    uint8_t *buffer = (uint8_t *)av_malloc(num_bytes);
+    uint8_t *buffer = (uint8_t *) av_malloc(num_bytes * sizeof(uint8_t));
 
     ret = av_image_fill_arrays(rgb_frame->data,
                                rgb_frame->linesize,
@@ -124,16 +125,16 @@ int main(int argc, char *argv[]) {
     // initialize SWS context for software scaling
     //    sws_alloc_context()
     struct SwsContext *sws_ctx = sws_getContext(
-        codec_ctx->width,
-        codec_ctx->height,
-        codec_ctx->pix_fmt,
-        codec_ctx->width,
-        codec_ctx->height,
-        dst_format,
-        SWS_BILINEAR,
-        nullptr,
-        nullptr,
-        nullptr);
+            codec_ctx->width,
+            codec_ctx->height,
+            codec_ctx->pix_fmt,
+            codec_ctx->width,
+            codec_ctx->height,
+            dst_format,
+            SWS_BILINEAR,
+            nullptr,
+            nullptr,
+            nullptr);
 
     if (sws_ctx == nullptr) {
         cerr << "sws_getContext failed\n";
