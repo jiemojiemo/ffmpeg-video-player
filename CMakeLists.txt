@@ -21,6 +21,9 @@ add_subdirectory(references)
 add_executable(tutorial01 tutorial01.cpp lsan_suppressions.cpp)
 target_link_libraries(tutorial01 PRIVATE ${CONAN_LIBS})
 
+add_executable(tutorial01_refactor tutorial01_refactor.cpp lsan_suppressions.cpp)
+target_link_libraries(tutorial01_refactor PRIVATE ${CONAN_LIBS} ffmpeg_utils)
+
 add_executable(tutorial02 tutorial02.cpp lsan_suppressions.cpp)
 target_link_libraries(tutorial02 PRIVATE ${CONAN_LIBS} ffmpeg_utils)
 
