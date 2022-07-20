@@ -24,6 +24,9 @@ target_link_libraries(tutorial01 PRIVATE ${CONAN_LIBS})
 add_executable(tutorial02 tutorial02.cpp lsan_suppressions.cpp)
 target_link_libraries(tutorial02 PRIVATE ${CONAN_LIBS} ffmpeg_utils)
 
+add_executable(tutorial02_refactor tutorial02_refactor.cpp lsan_suppressions.cpp)
+target_link_libraries(tutorial02_refactor PRIVATE ${CONAN_LIBS} ffmpeg_utils)
+
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND FF_BUILD_TESTING)
     enable_testing()
     add_subdirectory(tests)
